@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebDynpro xmlns="http://www.sap.com/wd/webdynpro">
+  <View name="POInvoiceView">
+    <Title>Standard PO 4500017100 Created by ZECHA</Title>
+    <LayoutData>
+      <VerticalLayout id="MainLayout" />
+    </LayoutData>
+    <UIElements>
+
+      <!-- Main Toolbar -->
+      <Toolbar id="MainToolbar">
+        <ToolbarItem type="Button">
+          <Button id="SaveButton" text="" tooltip="Save" icon="sap_icon://save" design="Emphasized" onAction="onActionSave" />
+        </ToolbarItem>
+        <ToolbarItem type="Dropdown">
+          <DropDownByIndex id="SaveOptionsDropDown" tooltip="More Save Options" onAction="onActionSaveOptions" />
+        </ToolbarItem>
+        <ToolbarSeparator id="ToolbarSep1" />
+        <ToolbarItem type="Link">
+          <TextView id="DocumentOverviewLink" text="Document Overview On" design="Link" onAction="onActionDocumentOverview" />
+        </ToolbarItem>
+        <ToolbarSeparator id="ToolbarSep2" />
+        <ToolbarItem type="Button">
+          <Button id="PrintPreviewButton" text="Print Preview" icon="sap_icon://print" tooltip="Print Preview" onAction="onActionPrintPreview" />
+        </ToolbarItem>
+        <ToolbarItem type="Button">
+          <Button id="MessagesButton" text="Messages" icon="sap_icon://message-popup" tooltip="Show Messages" onAction="onActionMessages" />
+        </ToolbarItem>
+        <ToolbarItem type="Button">
+          <Button id="InfoButton" text="" icon="sap_icon://hint" tooltip="Information" onAction="onActionShowInfo" />
+        </ToolbarItem>
+        <ToolbarItem type="Button">
+          <Button id="PersonalSettingButton" text="Personal Setting" icon="sap_icon://person-placeholder" tooltip="Personal Settings" onAction="onActionPersonalSetting" />
+        </ToolbarItem>
+        <ToolbarItem type="Button">
+          <Button id="CancelButton" text="Cancel" tooltip="Cancel Changes" onAction="onActionCancel" />
+        </ToolbarItem>
+      </Toolbar>
+
+      <!-- Header Data Section -->
+      <FormContainer id="HeaderDataContainer" title="General Data">
+        <FormElement id="FormElemPOType">
+          <Label text="Standard PO" />
+          <DropDownByIndex id="POTypeDropDown" width="100px" selectedKey="{/header/poType}" />
+          <InputField id="PONumberField" value="4500017100" readOnly="true" />
+        </FormElement>
+        <FormElement id="FormElemVendor">
+          <Label text="Vendor" />
+          <InputField id="VendorField" value="1012 Reihl &amp; Müller" readOnly="true" />
+        </FormElement>
+        <FormElement id="FormElemDocDate">
+          <Label text="Doc. date" />
+          <InputField id="DocDateField" value="02.05.2006" readOnly="true" />
+        </FormElement>
+      </FormContainer>
+
+      <!-- Header Tab Strip Section -->
+      <TabStrip id="HeaderTabStrip" selectedTabId="OrgDataTab" onSelect="onSelectHeaderTab">
+        <Tab id="DeliveryInvoiceTab" text="Delivery/Invoice" />
+        <Tab id="ConditionsTab" text="Conditions" />
+        <Tab id="TextsTab" text="Texts" />
+        <Tab id="AddressTab" text="Address" />
+        <Tab id="CommunicationTab" text="Communication" />
+        <Tab id="PartnersTab" text="Partners" />
+        <Tab id="AdditionalDataTab" text="Additional Data" />
+        <Tab id="OrgDataTab" text="Org. Data">
+          <!-- Content for Org. Data Tab -->
+          <LayoutData>
+            <MatrixLayout id="OrgDataLayout" rowCount="3" colCount="3" />
+          </LayoutData>
+          <UIElements>
+            <TextView id="LabelPurchOrg" text="Purchasing Org." />
+            <InputField id="PurchOrgField" value="0005" width="50px" />
+            <TextView id="PurchOrgDesc" text="IDES Deutschland" />
+
+            <TextView id="LabelPurchGroup" text="Purch. Group" />
+            <InputField id="PurchGroupField" value="005" width="50px" />
+            <TextView id="PurchGroupDesc" text="Diller, M" />
+
+            <TextView id="LabelCompanyCode" text="Company Code" />
+            <InputField id="CompanyCodeField" value="0005" width="50px" />
+            <TextView id="CompanyCodeDesc" text="IDES AG NEW GL" />
+          </UIElements>
+        </Tab>
+        <Tab id="StatusTab" text="Status" />
+      </TabStrip>
+
+      <!-- Item Table Toolbar (Above Table) -->
+      <Toolbar id="ItemTableToolbarTop">
+        <ToolbarItem type="Button">
+          <Button id="ItemTableZoomIn" icon="sap_icon://zoom-in" tooltip="Zoom In" onAction="onActionItemTableZoomIn" />
+        </ToolbarItem>
+        <ToolbarItem type="Button">
+          <Button id="ItemTableLayout" icon="sap_icon://show-lines" tooltip="Table Layout" onAction="onActionItemTableLayout" />
+        </ToolbarItem>
+        <ToolbarItem type="Button">
+          <Button id="ItemTableGridLines" icon="sap_icon://grid" tooltip="Grid Lines" onAction="onActionItemTableGridLines" />
+        </ToolbarItem>
+      </Toolbar>
+
+      <!-- Item Table -->
+      <Table id="ItemTable" dataSource="{/items}" visibleRowCount="3">
+        <Columns>
+          <TableColumn id="ColSelectAll">
+            <header>
+              <CheckBox id="SelectAllHeader" onAction="onActionSelectAllItems" />
+            </header>
+            <template>
+              <CheckBox id="ItemRowSelect" selected="{selected}" />
+            </template>
+          </TableColumn>
+          <TableColumn id="ColS" headerText="S.">
+            <template>
+              <CheckBox id="ItemS" selected="{S}" />
+            </template>
+          </TableColumn>
+          <TableColumn id="ColItm" headerText="Itm" sortProperty="itemNumber">
+            <template>
+              <TextView id="ItemNumber" text="{itemNumber}" />
+            </template>
+          </TableColumn>
+          <TableColumn id="ColA" headerText="A">
+            <template>
+              <TextView id="ItemA" text="{A}" />
+            </template>
+          </TableColumn>
+          <TableColumn id="ColI" headerText="I">
+            <template>
+              <TextView id="ItemI" text="{I}" />
+            </template>
+          </TableColumn>
+          <TableColumn id="ColMaterial" headerText="Material" sortProperty="material">
+            <template>
+              <Link id="ItemMaterial" text="{material}" onAction="onActionDisplayMaterial" />
+            </template>
+          </TableColumn>
+          <TableColumn id="ColShortText" headerText="Short Text" sortProperty="shortText">
+            <template>
+              <TextView id="ItemShortText" text="{shortText}" />
+            </template>
+          </TableColumn>
+          <TableColumn id="ColPOQuantity" headerText="PO Quantity" sortProperty="poQuantity">
+            <template>
+              <TextView id="ItemPOQuantity" text="{poQuantity} {poQuantityUnit}" />
+            </template>
+          </TableColumn>
+          <TableColumn id="ColOpenQuantity" headerText="O..." sortProperty="openQuantity">
+            <template>
+              <TextView id="ItemOpenQuantity" text="{openQuantity}" />
+            </template>
+          </TableColumn>
+          <TableColumn id="ColCompletion" headerText="C">
+            <template>
+              <CheckBox id="ItemCompletion" selected="{completionFlag}" />
+            </template>
+          </TableColumn>
+          <TableColumn id="ColDeliveryDate" headerText="Deliv. Date" sortProperty="deliveryDate">
+            <template>
+              <TextView id="ItemDeliveryDate" text="{deliveryDate}" />
+            </template>
+          </TableColumn>
+          <TableColumn id="ColNetPrice" headerText="Net Price" sortProperty="netPrice">
+            <template>
+              <TextView id="ItemNetPrice" text="{netPrice} {currency}" />
+            </template>
+          </TableColumn>
+          <TableColumn id="ColCurrency" headerText="Curr." sortProperty="currency">
+            <template>
+              <TextView id="ItemCurrency" text="{currency}" />
+            </template>
+          </TableColumn>
+          <TableColumn id="ColPer" headerText="Per" sortProperty="perUnit">
+            <template>
+              <TextView id="ItemPer" text="{perUnit}" />
+            </template>
+          </TableColumn>
+          <TableColumn id="ColFixed" headerText="F">
+            <template>
+              <CheckBox id="ItemFixed" selected="{fixedFlag}" />
+            </template>
+          </TableColumn>
+          <TableColumn id="ColOrderAck" headerText="O...">
+            <template>
+              <CheckBox id="ItemOrderAck" selected="{orderAckFlag}" />
+            </template>
+          </TableColumn>
+          <TableColumn id="ColMatlGroup" headerText="Matl Group" sortProperty="materialGroup">
+            <template>
+              <TextView id="ItemMatlGroup" text="{materialGroup}" />
+            </template>
+          </TableColumn>
+          <TableColumn id="ColPlant" headerText="Plnt" sortProperty="plant">
+            <template>
+              <TextView id="ItemPlant" text="{plant}" />
+            </template>
+          </TableColumn>
+          <TableColumn id="ColStorLocation" headerText="Stor. Location" sortProperty="storageLocation">
+            <template>
+              <TextView id="ItemStorLocation" text="{storageLocation}" />
+            </template>
+          </TableColumn>
+          <TableColumn id="ColSettings">
+            <template>
+              <Button id="ItemSettingsButton" icon="sap_icon://settings" tooltip="Item Settings" onAction="onActionItemSettingsFromRow" />
+            </template>
+          </TableColumn>
+        </Columns>
+        <TableControls>
+            <TableNavigation id="TableNav" />
+        </TableControls>
+      </Table>
+      
+      <!-- Item Table Action Toolbar (Below Table) -->
+      <Toolbar id="ItemTableToolbarBottom">
+        <ToolbarItem type="Button">
+          <Button id="ItemSearch" icon="sap_icon://search" tooltip="Search Item" onAction="onActionItemSearch" />
+        </ToolbarItem>
+        <ToolbarItem type="Button">
+          <Button id="ItemDuplicate" icon="sap_icon://copy" tooltip="Duplicate Item" onAction="onActionItemDuplicate" />
+        </ToolbarItem>
+        <ToolbarItem type="Button">
+          <Button id="ItemAdd" icon="sap_icon://add" tooltip="Add Item" onAction="onActionItemAdd" />
+        </ToolbarItem>
+        <ToolbarItem type="Button">
+          <Button id="ItemDelete" icon="sap_icon://delete" tooltip="Delete Item" onAction="onActionItemDelete" />
+        </ToolbarItem>
+        <ToolbarSeparator />
+        <ToolbarItem type="Button">
+          <Button id="ItemLock" icon="sap_icon://locked" tooltip="Lock Item" onAction="onActionItemLock" />
+        </ToolbarItem>
+        <ToolbarItem type="Button">
+          <Button id="ItemUnlock" icon="sap_icon://unlocked" tooltip="Unlock Item" onAction="onActionItemUnlock" />
+        </ToolbarItem>
+        <ToolbarSeparator />
+        <ToolbarItem type="Button">
+          <Button id="ItemAttach" icon="sap_icon://attachment" tooltip="Attach Document" onAction="onActionItemAttach" />
+        </ToolbarItem>
+        <ToolbarItem type="Button">
+          <Button id="ItemDetails" icon="sap_icon://detail-view" tooltip="Item Details" onAction="onActionItemDetails" />
+        </ToolbarItem>
+        <ToolbarSeparator />
+        <ToolbarItem type="Button">
+          <Button id="ItemFilter" icon="sap_icon://filter" tooltip="Filter Items" onAction="onActionItemFilter" />
+        </ToolbarItem>
+        <ToolbarItem type="Button">
+          <Button id="ItemSort" icon="sap_icon://sort" tooltip="Sort Items" onAction="onActionItemSort" />
+        </ToolbarItem>
+        <ToolbarItem type="Button">
+          <Button id="ItemLayout" icon="sap_icon://table-row" tooltip="Table Layout Settings" onAction="onActionItemLayout" />
+        </ToolbarItem>
+        <ToolbarItem type="Button">
+          <Button id="ItemExport" icon="sap_icon://download" tooltip="Export Items" onAction="onActionItemExport" />
+        </ToolbarItem>
+        <ToolbarItem type="Button">
+          <Button id="ItemSettings" icon="sap_icon://action-settings" tooltip="Table Settings" onAction="onActionItemSettings" />
+        </ToolbarItem>
+        <ToolbarSpacer />
+        <ToolbarItem type="Button">
+          <Button id="AddlPlanningButton" text="Addl Planning" onAction="onActionAddlPlanning" />
+        </ToolbarItem>
+      </Toolbar>
+
+      <!-- Item Details Section Header -->
+      <MatrixLayout id="ItemDetailHeader" rowCount="1" colCount="4">
+        <LayoutData>
+          <MatrixHeadData colSpan="1" />
+          <MatrixCellData colSpan="1" />
+          <MatrixCellData colSpan="1" />
+          <MatrixCellData colSpan="1" />
+        </LayoutData>
+        <MatrixRow id="ItemDetailHeaderRow">
+          <MatrixCell id="ItemDetailLabelCell">
+            <TextView id="LabelItem" text="Item" design="Bold" />
+          </MatrixCell>
+          <MatrixCell id="ItemDetailSelectorCell">
+            <InputField id="ItemSelector" value="{/selectedItem/description}" width="300px" valueHelpMode="automatic" />
+            <Button id="ItemSelectorDropdown" icon="sap_icon://slim-arrow-down" tooltip="Select Item" onAction="onActionItemSelectorDropdown" />
+          </MatrixCell>
+          <MatrixCell id="ItemNavButtonsCell">
+            <Button id="ItemNavUp" icon="sap_icon://slim-arrow-up" tooltip="Previous Item" onAction="onActionItemNavUp" />
+            <Button id="ItemNavDown" icon="sap_icon://slim-arrow-down" tooltip="Next Item" onAction="onActionItemNavDown" />
+          </MatrixCell>
+          <MatrixCell /> <!-- Empty cell for alignment -->
+        </MatrixRow>
+      </MatrixLayout>
+
+      <!-- Item Details Tab Strip Section -->
+      <TabStrip id="ItemDetailTabStrip" selectedTabId="InvoiceTab" onSelect="onSelectItemTab">
+        <Tab id="MaterialDataTab" text="Material Data" />
+        <Tab id="QuantitiesWeightsTab" text="Quantities/Weights" />
+        <Tab id="DeliveryScheduleTab" text="Delivery Schedule" />
+        <Tab id="DeliveryTab" text="Delivery" />
+        <Tab id="InvoiceTab" text="Invoice">
+          <!-- Content for Invoice Tab -->
+          <LayoutData>
+            <MatrixLayout id="InvoiceLayout" rowCount="4" colCount="3" />
+          </LayoutData>
+          <UIElements>
+            <CheckBox id="InvReceipt" text="Inv. Receipt" selected="true" onAction="onToggleInvReceipt" />
+            <TextView /> <!-- Empty cell for alignment -->
+            <TextView id="LabelTaxCode" text="Tax code" />
+
+            <CheckBox id="FinalInvoice" text="Final Invoice" selected="false" onAction="onToggleFinalInvoice" />
+            <TextView />
+            <InputField id="TaxCodeField" value="VN" width="50px" onEnter="onEnterTaxCode" />
+
+            <CheckBox id="GRBsdIV" text="GR-Bsd IV" selected="false" onAction="onToggleGRBsdIV" />
+            <TextView />
+            <Button id="TaxesButton" text="Taxes" onAction="onActionTaxes" />
+
+            <CheckBox id="ERS" text="ERS" selected="true" onAction="onToggleERS" />
+          </UIElements>
+        </Tab>
+        <Tab id="ConditionsItemTab" text="Conditions" />
+        <Tab id="PurchaseOrderHistoryTab" text="Purchase Order History" />
+        <Tab id="TextsItemTab" text="Texts" />
+        <Tab id="DeliveryAddressTab" text="Delivery Address" />
+        <Tab id="ConfirmationsTab" text="Confirmations" />
+      </TabStrip>
+
+      <!-- Message Area at the bottom -->
+      <MessageArea id="ApplicationMessageArea" />
+
+    </UIElements>
+  </View>
+
+  <Controller name="POInvoiceViewController">
+    <Methods>
+      <!-- Global Toolbar Actions -->
+      <Method name="onActionSave" />
+      <Method name="onActionSaveOptions" />
+      <Method name="onActionDocumentOverview" />
+      <Method name="onActionPrintPreview" />
+      <Method name="onActionMessages" />
+      <Method name="onActionShowInfo" />
+      <Method name="onActionPersonalSetting" />
+      <Method name="onActionCancel" />
+      <Method name="onActionExit" />
+      <Method name="onActionSearch" />
+      <Method name="onActionHelp" />
+
+      <!-- Header Tab Strip Actions -->
+      <Method name="onSelectHeaderTab">
+        <Parameters>
+          <Parameter name="tabId" type="string" />
+        </Parameters>
+      </Method>
+
+      <!-- Item Table Toolbar Actions (Top) -->
+      <Method name="onActionItemTableZoomIn" />
+      <Method name="onActionItemTableLayout" />
+      <Method name="onActionItemTableGridLines" />
+
+      <!-- Item Table Actions (from template) -->
+      <Method name="onActionSelectAllItems" />
+      <Method name="onActionDisplayMaterial">
+        <Parameters>
+          <Parameter name="materialId" type="string" />
+        </Parameters>
+      </Method>
+      <Method name="onActionItemSettingsFromRow">
+        <Parameters>
+          <Parameter name="itemNumber" type="string" />
+        </Parameters>
+      </Method>
+
+      <!-- Item Table Toolbar Actions (Bottom) -->
+      <Method name="onActionItemSearch" />
+      <Method name="onActionItemDuplicate" />
+      <Method name="onActionItemAdd" />
+      <Method name="onActionItemDelete" />
+      <Method name="onActionItemLock" />
+      <Method name="onActionItemUnlock" />
+      <Method name="onActionItemAttach" />
+      <Method name="onActionItemDetails" />
+      <Method name="onActionItemFilter" />
+      <Method name="onActionItemSort" />
+      <Method name="onActionItemLayout" />
+      <Method name="onActionItemExport" />
+      <Method name="onActionItemSettings" />
+      <Method name="onActionAddlPlanning" />
+
+      <!-- Item Detail Section Actions -->
+      <Method name="onActionItemSelectorDropdown" />
+      <Method name="onActionItemNavUp" />
+      <Method name="onActionItemNavDown" />
+      <Method name="onSelectItemTab">
+        <Parameters>
+          <Parameter name="tabId" type="string" />
+        </Parameters>
+      </Method>
+
+      <!-- Invoice Tab Actions -->
+      <Method name="onToggleInvReceipt" />
+      <Method name="onToggleFinalInvoice" />
+      <Method name="onToggleGRBsdIV" />
+      <Method name="onToggleERS" />
+      <Method name="onEnterTaxCode" />
+      <Method name="onActionTaxes" />
+    </Methods>
+  </Controller>
+</WebDynpro>

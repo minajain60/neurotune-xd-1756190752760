@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mvc:View xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:layout="sap.ui.layout"
+  xmlns:form="sap.ui.layout.form"
+  xmlns:core="sap.ui.core"
+  xmlns:richtexteditor="sap.ui.richtexteditor"
+  xmlns:viz="sap.viz.ui5"
+  controllerName="preview.app.controller.POInvoiceView"
+  displayBlock="true">
+  <Page title="POInvoiceView" enableScrolling="true">
+    <content>
+      <Title id="title_n1rimvs5" text="Standard PO 4500017100 Created by ZECHA"/>
+      <Text id="layoutdata_t90xgfx3"/>
+      <Text id="uielements_4qekjshi"/>
+    </content>
+  </Page>
+</mvc:View>
